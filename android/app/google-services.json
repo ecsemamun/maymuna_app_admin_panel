@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "329308170158",
+    "project_id": "maymuna-collection",
+    "storage_bucket": "maymuna-collection.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329308170158:android:37ea70da2fcdf93d4f4a3f",
+        "android_client_info": {
+          "package_name": "com.example.maymuna_admin_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329308170158-1d486qnkbnnu7g2pukimb87cj9rthspk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWgzJvIWtE6idKUOCZM7JyPluJoqrckVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329308170158-1d486qnkbnnu7g2pukimb87cj9rthspk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:329308170158:android:aeeae39de0608f6b4f4a3f",
+        "android_client_info": {
+          "package_name": "com.maymuna.com.maymunas_collection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "329308170158-u3a3q96qk92e2tb8lhcfd0u8k1hm979r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maymuna.com.maymunas_collection",
+            "certificate_hash": "9dffa543f6c085ba2e63df4119a79304f317428f"
+          }
+        },
+        {
+          "client_id": "329308170158-1d486qnkbnnu7g2pukimb87cj9rthspk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWgzJvIWtE6idKUOCZM7JyPluJoqrckVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "329308170158-1d486qnkbnnu7g2pukimb87cj9rthspk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
