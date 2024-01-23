@@ -1,51 +1,115 @@
-
+// ignore_for_file: file_names, sort_child_properties_last, prefer_const_constructors, unused_local_variable, must_be_immutable, avoid_print, unnecessary_string_interpolations, deprecated_member_use, unused_element, unnecessary_null_comparison
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:maymuna_admin_panel/screens/all_user_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../screens/all-orders-screen.dart';
+import '../screens/main_screen.dart';
 import '../utilis/app_constant.dart';
 
 
 class DrawerWidget extends StatefulWidget {
-  const DrawerWidget({super.key});
+  const DrawerWidget({
+    super.key,
+  });
 
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  User? user = FirebaseAuth.instance.currentUser;
+  // final GoogleSignIn _googleSignIn = GoogleSignIn();
+  // final GoogleSignInController googleSignInController =
+  //     Get.put(GoogleSignInController());
+
+  String userName = 'User';
+  String firstLetter = 'U';
+
+  // Future<dynamic> getUserData() async {
+  //   if (user != null) {
+  //     final DocumentSnapshot snapshot = await FirebaseFirestore.instance
+  //         .collection('users')
+  //         .doc(user!.uid.toString())
+  //         .get();
+
+  //     UserModel userModel =
+  //         UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
+  //     userName = userModel.username;
+  //     firstLetter = userModel.username[0];
+  //     setState(() {});
+
+  //     print(userName);
+  //   } else {}
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // if (user != null) {
+    //   getUserData();
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: Get.height / 25),
       child: Drawer(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
-          ),
-        ),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(20.0),
+              bottomRight: Radius.circular(20.0),
+            )),
         child: Wrap(
           runSpacing: 10,
           children: [
-            Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            user != null
+                ? Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0, vertical: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text(
-                  "মোঃ আব্দুল্লাহ আল মামুন",
+                  userName.toString(),
                   style: TextStyle(color: AppConstant.appTextColor),
                 ),
                 subtitle: Text(
-                  "ভার্সন ১.০.১",
-                  style: TextStyle(color: AppConstant.appTextColor),
+                  AppConstant.appVersion,
+                  style: TextStyle(color: Colors.grey),
                 ),
                 leading: CircleAvatar(
                   radius: 22.0,
                   backgroundColor: AppConstant.appMainColor,
                   child: Text(
-                    "ম",
+                    firstLetter,
+                    style: TextStyle(color: AppConstant.appTextColor),
+                  ),
+                ),
+              ),
+            )
+                : Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0, vertical: 20.0),
+              child: ListTile(
+                titleAlignment: ListTileTitleAlignment.center,
+                title: Text(
+                  "Guest",
+                  style: TextStyle(color: AppConstant.appTextColor),
+                ),
+                subtitle: Text(
+                  AppConstant.appVersion,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                leading: CircleAvatar(
+                  radius: 22.0,
+                  backgroundColor: AppConstant.appMainColor,
+                  child: Text(
+                    "G",
                     style: TextStyle(color: AppConstant.appTextColor),
                   ),
                 ),
@@ -60,76 +124,122 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
-                titleAlignment: ListTileTitleAlignment.center,
+                onTap: () {
+                  Get.offAll(() => MainScreen());
+                },
                 title: Text(
-                  "হোম",
-                  style: TextStyle(color: AppConstant.appTextColor),
+                  'Home',
+                  style: TextStyle(color: Colors.white),
                 ),
                 leading: Icon(
-                  Icons.home,
-                  color: AppConstant.appTextColor,
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward,
-                  color: AppConstant.appTextColor,
+                  Icons.home_outlined,
+                  color: Colors.white,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
-                titleAlignment: ListTileTitleAlignment.center,
+                onTap: () {
+                  Get.to(() => AllUsersScreen());
+                },
                 title: Text(
-                  "প্রডাক্টস",
-                  style: TextStyle(color: AppConstant.appTextColor),
+                  'Users',
+                  style: TextStyle(color: Colors.white),
                 ),
                 leading: Icon(
-                  Icons.production_quantity_limits,
-                  color: AppConstant.appTextColor,
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward,
-                  color: AppConstant.appTextColor,
+                  Icons.person,
+                  color: Colors.white,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
-                titleAlignment: ListTileTitleAlignment.center,
+                onTap: () {
+                  Get.to(() => AllOrdersScreen());
+                },
                 title: Text(
-                  "অর্ডার",
-                  style: TextStyle(color: AppConstant.appTextColor),
+                  'Orders',
+                  style: TextStyle(color: Colors.white),
                 ),
                 leading: Icon(
                   Icons.shopping_bag,
-                  color: AppConstant.appTextColor,
+                  color: Colors.white,
                 ),
-                trailing: Icon(
-                  Icons.arrow_forward,
-                  color: AppConstant.appTextColor,
-                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
                 onTap: () {
-                  // Get.back();
-                  // Get.to(() => AllOrdersScreen());
+                  Get.back();
+                  // Get.to(() => AllProductsScreen());
                 },
+                title: Text(
+                  'Products',
+                  style: TextStyle(color: Colors.white),
+                ),
+                leading: Icon(
+                  Icons.production_quantity_limits,
+                  color: Colors.white,
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
+                onTap: () async {
+                  Get.back();
+                  EasyLoading.show(status: "Please wait");
+
+                  // Get.to(() => ContactScreen());
+                  await sendMessage();
+                  EasyLoading.dismiss();
+                },
                 title: Text(
-                  "যোগাযোগ",
-                  style: TextStyle(color: AppConstant.appTextColor),
+                  'Categories',
+                  style: TextStyle(color: Colors.white),
                 ),
                 leading: Icon(
-                  Icons.help,
-                  color: AppConstant.appTextColor,
+                  Icons.category,
+                  color: Colors.white,
                 ),
-                trailing: Icon(
-                  Icons.arrow_forward,
-                  color: AppConstant.appTextColor,
+              ),
+            ),
+            if (user != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListTile(
+                  titleAlignment: ListTileTitleAlignment.center,
+                  onTap: () {
+                    // Get.back();
+                    // Get.to(() => CustomerReviews());
+                  },
+                  title: Text(
+                    'Customer Reviews',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  leading: Icon(
+                    Icons.reviews_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                onTap: () {
+                  // Get.to(() => ContactScreen());
+                },
+                title: Text(
+                  'Contact',
+                  style: TextStyle(color: Colors.white),
+                ),
+                leading: Icon(
+                  Icons.phone,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -137,31 +247,49 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: ListTile(
                 onTap: () async {
-                  GoogleSignIn googleSignIn = GoogleSignIn();
-                  FirebaseAuth _auth = FirebaseAuth.instance;
-                  await _auth.signOut();
-                  await googleSignIn.signOut();
-                  // Get.offAll(() => WelcomeScreen());
+                  // if (user != null) {
+                  //   EasyLoading.show();
+                  //   await FirebaseAuth.instance.signOut();
+                  //   await _googleSignIn.signOut();
+                  //   Get.offAll(() => MainScreen());
+                  //   EasyLoading.dismiss();
+                  // } else {
+                  //   Get.back();
+                  //   await googleSignInController.signInWithGoogle();
+                  // }
                 },
-
                 title: Text(
-                  "লগআউট",
-                  style: TextStyle(color: AppConstant.appTextColor),
+                  user != null ? 'Logout' : 'Login',
+                  style: TextStyle(color: Colors.white),
                 ),
                 leading: Icon(
-                  Icons.logout,
-                  color: AppConstant.appTextColor,
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward,
-                  color: AppConstant.appTextColor,
+                  user != null ? Icons.logout : Icons.login,
+                  color: Colors.white,
                 ),
               ),
-            ),
+            )
           ],
         ),
+        width: Get.width - 80.0,
         backgroundColor: AppConstant.appScendoryColor,
+        // backgroundColor: Colors.grey.shade900,
       ),
     );
+  }
+
+  // send whatsapp message
+  static Future<void> sendMessage() async {
+    final phoneNumber = AppConstant.whatsAppNumber;
+    final message =
+        "Hello *${AppConstant.appMainName}*"; // Replace with your message
+
+    final url =
+        'https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}';
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
