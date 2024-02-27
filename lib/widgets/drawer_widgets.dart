@@ -7,6 +7,7 @@ import 'package:maymuna_admin_panel/screens/all_user_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../screens/all-orders-screen.dart';
+import '../screens/all-products-screen.dart';
 import '../screens/main_screen.dart';
 import '../utilis/app_constant.dart';
 
@@ -174,7 +175,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               child: ListTile(
                 onTap: () {
                   Get.back();
-                  // Get.to(() => AllProductsScreen());
+                  Get.to(() => AllProductsScreen());
                 },
                 title: Text(
                   'Products',
