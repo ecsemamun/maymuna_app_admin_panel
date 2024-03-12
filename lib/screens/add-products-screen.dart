@@ -1,15 +1,32 @@
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../controllers/category-dropdown_controller.dart';
+import '../controllers/is-sale-controller.dart';
 import '../controllers/products-images-controller.dart';
+import '../services/generate-ids-service.dart';
 import '../utilis/app_constant.dart';
+import '../widgets/dropdown-categories-widget.dart';
 
 class AddProductScreen extends StatelessWidget {
   AddProductScreen({super.key});
 
   AddProductImagesController addProductImagesController =
   Get.put(AddProductImagesController());
+
+  //
+  CategoryDropDownController categoryDropDownController =
+  Get.put(CategoryDropDownController());
+
+  IsSaleController isSaleController = Get.put(IsSaleController());
+
+  TextEditingController productNameController = TextEditingController();
+  TextEditingController salePriceController = TextEditingController();
+  TextEditingController fullPriceController = TextEditingController();
+  TextEditingController deliveryTimeController = TextEditingController();
+  TextEditingController productDescriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +36,8 @@ class AddProductScreen extends StatelessWidget {
         backgroundColor: AppConstant.appMainColor,
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Container(
-          height: Get.height,
           child: Column(
             children: [
               Padding(
@@ -93,6 +110,162 @@ class AddProductScreen extends StatelessWidget {
                       : SizedBox.shrink();
                 },
               ),
+
+              //show categories drop down
+              DropDownCategoriesWiidget(),
+
+              //isSale
+              GetBuilder<IsSaleController>(
+                init: IsSaleController(),
+                builder: (isSaleController) {
+                  return Card(
+                    elevation: 10,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Is Sale"),
+                          Switch(
+                            value: isSaleController.isSale.value,
+                            activeColor: AppConstant.appMainColor,
+                            onChanged: (value) {
+                              isSaleController.toggleIsSale(value);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              //form
+              SizedBox(height: 10.0),
+              Container(
+                height: 65,
+                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextFormField(
+                  cursorColor: AppConstant.appMainColor,
+                  textInputAction: TextInputAction.next,
+                  controller: productNameController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    hintText: "Product Name",
+                    hintStyle: TextStyle(fontSize: 12.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+
+              Obx(() {
+                return isSaleController.isSale.value
+                    ? Container(
+                  height: 65,
+                  margin: EdgeInsets.symmetric(horizontal: 10.0),
+                  child: TextFormField(
+                    cursorColor: AppConstant.appMainColor,
+                    textInputAction: TextInputAction.next,
+                    controller: salePriceController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                      ),
+                      hintText: "Sale Price",
+                      hintStyle: TextStyle(fontSize: 12.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                    : SizedBox.shrink();
+              }),
+
+              SizedBox(height: 10.0),
+              Container(
+                height: 65,
+                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextFormField(
+                  cursorColor: AppConstant.appMainColor,
+                  textInputAction: TextInputAction.next,
+                  controller: fullPriceController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    hintText: "Full Price",
+                    hintStyle: TextStyle(fontSize: 12.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 10.0),
+              Container(
+                height: 65,
+                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextFormField(
+                  cursorColor: AppConstant.appMainColor,
+                  textInputAction: TextInputAction.next,
+                  controller: deliveryTimeController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    hintText: "Delivery Time",
+                    hintStyle: TextStyle(fontSize: 12.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 10.0),
+              Container(
+                height: 65,
+                margin: EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextFormField(
+                  cursorColor: AppConstant.appMainColor,
+                  textInputAction: TextInputAction.next,
+                  controller: productDescriptionController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    hintText: "Product Desc",
+                    hintStyle: TextStyle(fontSize: 12.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              ElevatedButton(
+                onPressed: () async {
+                  String productId = await GenerateIds().generateProductId();
+                  print(productId);
+                },
+                child: Text("Upload"),
+              )
             ],
           ),
         ),
